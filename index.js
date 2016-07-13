@@ -3,7 +3,7 @@
  * @author Seena Rowhani
  * @description Auto-generate test scaffolding using JIRA
  */
-;(function (program, Jira, chalk, package) {
+;(function (program, Jira, utils, package) {
   /**
    * [parse description]
    * @param  {[type]} comment [description]
@@ -11,7 +11,11 @@
    */
   let parse = function (comment) {
     let body = comment.body
-    
+    utils
+      .parse(body)
+      .then(object => {
+
+      }).catch(utils.error)
   }
   ;(init => {
     program
@@ -36,13 +40,12 @@
       let comments = issue.fields.comment.comments
       comments.forEach(parse)
     }).catch(e => {
-      console.error(chalk.bold.red(e))
-      process.exit()
+      utils.error(e)
     })
 
 })(
   require('commander'),
   require('jira-client'),
-  require('chalk'),
+  require('./utils/util'),
   require('./package.json')
 );

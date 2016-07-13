@@ -22,6 +22,9 @@
   },
   "homepage": "https://github.com/srowhani/mocha-jira#readme",
   "dependencies": {
-    "jira-client": "^3.0.2"
+    "chalk": "^1.1.3",
+    "commander": "^2.9.0",
+    "jira-client": "^3.0.2",
+    "js-yaml": "^3.6.1"
   }
 }
