@@ -4,19 +4,6 @@
  * @description Auto-generate test scaffolding using JIRA
  */
 ;(function (program, Jira, utils, package) {
-  /**
-   * [parse description]
-   * @param  {[type]} comment [description]
-   * @return {[type]}         [description]
-   */
-  let parse = function (comment) {
-    let body = comment.body
-    utils
-      .parse(body)
-      .then(object => {
-
-      }).catch(utils.error)
-  }
   ;(init => {
     program
       .version(package.version)
@@ -38,11 +25,10 @@
   jira.findIssue('BPSO-25131')
     .then(issue => {
       let comments = issue.fields.comment.comments
-      comments.forEach(parse)
+      comments.forEach(utils.parse)
     }).catch(e => {
       utils.error(e)
     })
-
 })(
   require('commander'),
   require('jira-client'),

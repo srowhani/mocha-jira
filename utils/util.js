@@ -10,7 +10,7 @@
     parse (e) {
       return new Promise((resolve, reject) => {
         try {
-          resolve(yaml.load(e))
+          resolve(yaml.load(e.body))
         } catch (error) {
           reject(error)
         }
