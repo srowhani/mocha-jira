@@ -1,20 +1,40 @@
-;(function (chalk, yaml) {
+;(function (chalk, yaml, Handlebars, package) {
   module.exports = {
-    error (e) {
-      console.error(chalk.red.bold(e))
+    package,
+    init (program) {
+      this.config = program
+    },
+    error (err) {
+      console.error(chalk.red.bold(err))
       process.exit(1)
     },
-    log (s) {
-      console.log(chalk.cyan(s))
+    log (msg) {
+      console.log(chalk.cyan(msg))
     },
-    parse (e) {
-      return new Promise((resolve, reject) => {
-        try {
-          resolve(yaml.load(e.body))
-        } catch (error) {
-          reject(error)
-        }
-      })
+    debug (msg) {
+      if (this.config.debug) {
+        this.log(`DEBUG: ${msg}`)
+      }
+    },
+    parse (obj) {
+      try {
+        return yaml.load(obj.body)
+      } catch (error) {
+        return false
+      }
+    },
+    validate (el) {
+      return !el ?
+        false :
+        /Acceptance Criteria/.test(Object.keys(el)[0])
+    },
+    compile (data) {
+      return Handlebars.compile(require('./template'))(data)
     }
   }
-})(require('chalk'), require('js-yaml'));
+})(
+  require('chalk'),
+  require('js-yaml'),
+  require('handlebars'),
+  require('../package.json')
+);
